@@ -1,5 +1,5 @@
 ﻿using System.Linq.Expressions;
-using ProductManagement.Domain.Pagination;
+using ProductManagement.Application.Pagination;
 
 namespace ProductManagement.Application.Contracts.RepositoryContracts;
 

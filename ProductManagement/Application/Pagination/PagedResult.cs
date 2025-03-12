@@ -1,4 +1,4 @@
-﻿namespace ProductManagement.Domain.Pagination;
+﻿namespace ProductManagement.Application.Pagination;
 
 public class PagedResult<T> (IEnumerable<T> items, int total)
 {

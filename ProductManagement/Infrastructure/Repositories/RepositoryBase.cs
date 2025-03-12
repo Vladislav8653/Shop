@@ -1,11 +1,11 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ProductManagement.Application.Contracts.RepositoryContracts;
-using ProductManagement.Domain.Pagination;
+using ProductManagement.Application.Pagination;
 
 namespace ProductManagement.Infrastructure.Repositories;
 
-public class RepositoryBase<T>(ApplicationContext context) : IRepositoryBase<T> where T : class
+public abstract class RepositoryBase<T>(ApplicationContext context) : IRepositoryBase<T> where T : class
 {
     public async Task<IEnumerable<T>> FindAll(bool trackChanges, CancellationToken cancellationToken)
     {

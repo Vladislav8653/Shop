@@ -1,4 +1,4 @@
-﻿namespace ProductManagement.Domain.Pagination;
+﻿namespace ProductManagement.Application.Pagination;
 
 public class PageParams(int page, int pageSize)
 {
