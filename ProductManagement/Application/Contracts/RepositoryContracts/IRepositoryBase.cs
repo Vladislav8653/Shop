@@ -1,4 +1,5 @@
 ﻿using System.Linq.Expressions;
+using ProductManagement.Domain.Pagination;
 
 namespace ProductManagement.Application.Contracts.RepositoryContracts;
 
@@ -16,4 +17,7 @@ public interface IRepositoryBase<T>
     Task Update(T entity, CancellationToken cancellationToken);
     
     Task Delete(T entity, CancellationToken cancellationToken);
+
+    Task<PagedResult<T>> GetByPageAsync(IQueryable<T> query, PageParams pageParams,
+        CancellationToken cancellationToken);
 }

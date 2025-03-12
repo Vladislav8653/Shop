@@ -1,6 +1,7 @@
 ﻿using System.Linq.Expressions;
 using Microsoft.EntityFrameworkCore;
 using ProductManagement.Application.Contracts.RepositoryContracts;
+using ProductManagement.Domain.Pagination;
 
 namespace ProductManagement.Infrastructure.Repositories;
 
@@ -43,5 +44,15 @@ public class RepositoryBase<T>(ApplicationContext context) : IRepositoryBase<T> 
     {
         context.Set<T>().Remove(entity);
         await context.SaveChangesAsync(cancellationToken);
+    }
+    
+    public async Task<PagedResult<T>> GetByPageAsync(IQueryable<T> query, PageParams pageParams, CancellationToken cancellationToken)
+    {
+        var totalCount = query.Count();
+        var page = pageParams.Page;
+        var pageSize = pageParams.PageSize;
+        var skip = (page - 1) * pageSize;
+        query = query.Skip(skip).Take(pageSize);
+        return new PagedResult<T>(await query.ToListAsync(cancellationToken), totalCount);
     }
 }
