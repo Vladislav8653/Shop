@@ -4,3 +4,9 @@
     build:
       context: .
       dockerfile: UserManagement/Dockerfile
+
+  productmanagement:
+    image: productmanagement
+    build:
+      context: .
+      dockerfile: ProductManagement/Dockerfile
