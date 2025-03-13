@@ -6,5 +6,5 @@ namespace ProductManagement.Application.Contracts.UseCasesContracts;
 
 public interface IGetProducts
 {
-    Task<IEnumerable<ProductResponseDto>> Handle(PageParams pageParams, ProductFilters filters, CancellationToken cancellationToken);
+    Task<PagedResult<ProductResponseDto>> Handle(PageParams pageParams, ProductFilters filters, CancellationToken cancellationToken);
 }

@@ -1,5 +1,4 @@
 ﻿using System.Linq.Expressions;
-using ProductManagement.Application.Pagination;
 
 namespace ProductManagement.Application.Contracts.RepositoryContracts;
 
@@ -12,12 +11,9 @@ public interface IRepositoryBase<T>
         bool trackChanges,
         CancellationToken cancellationToken);
     
-    Task Create(T entity, CancellationToken cancellationToken);
+    public Task Create(T entity, CancellationToken cancellationToken);
     
-    Task Update(T entity, CancellationToken cancellationToken);
+    public Task Update(T entity, CancellationToken cancellationToken);
     
-    Task Delete(T entity, CancellationToken cancellationToken);
-
-    Task<PagedResult<T>> GetByPageAsync(IQueryable<T> query, PageParams pageParams,
-        CancellationToken cancellationToken);
+    public Task Delete(T entity, CancellationToken cancellationToken);
 }

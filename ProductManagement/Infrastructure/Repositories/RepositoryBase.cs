@@ -46,7 +46,7 @@ public abstract class RepositoryBase<T>(ApplicationContext context) : IRepositor
         await context.SaveChangesAsync(cancellationToken);
     }
     
-    public async Task<PagedResult<T>> GetByPageAsync(IQueryable<T> query, PageParams pageParams, CancellationToken cancellationToken)
+    protected async Task<PagedResult<T>> GetByPageAsync(IQueryable<T> query, PageParams pageParams, CancellationToken cancellationToken)
     {
         var totalCount = query.Count();
         var page = pageParams.Page;
