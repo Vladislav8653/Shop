@@ -1,7 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
 using ProductManagement.Application.DTO;
-using ProductManagement.Application.Filtration;
 using ProductManagement.Application.Pagination;
 using ProductManagement.Infrastructure.Repositories;
 

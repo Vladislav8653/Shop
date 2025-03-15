@@ -6,8 +6,7 @@ using ProductManagement.Infrastructure.Repositories;
 namespace ProductManagement.Application.UseCases.Commands.DeleteProduct;
 
 public class DeleteProductCommandHandler(
-    ProductRepository productRepository,
-    IValidator<ProductRequestDto> validator) :
+    ProductRepository productRepository) :
     IRequestHandler<DeleteProductCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)

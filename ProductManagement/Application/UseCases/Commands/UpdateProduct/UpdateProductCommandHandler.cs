@@ -2,6 +2,7 @@
 using FluentValidation;
 using MediatR;
 using ProductManagement.Application.DTO;
+using ProductManagement.Domain.Models;
 using ProductManagement.Infrastructure.Repositories;
 
 namespace ProductManagement.Application.UseCases.Commands.UpdateProduct;
@@ -9,7 +10,7 @@ namespace ProductManagement.Application.UseCases.Commands.UpdateProduct;
 public class UpdateProductCommandHandler(
     ProductRepository productRepository, 
     IMapper mapper,
-    IValidator<ProductRequestDto> validator) :
+    IValidator<Product> validator) :
     IRequestHandler<UpdateProductCommand, Unit>
 {
     public async Task<Unit> Handle(UpdateProductCommand request, CancellationToken cancellationToken)
@@ -19,6 +20,9 @@ public class UpdateProductCommandHandler(
         var product = products.First();
         
         mapper.Map(request.NewProduct, product);
+        var validationResult = await validator.ValidateAsync(product, cancellationToken);
+        if (!validationResult.IsValid)
+            throw new ValidationException(validationResult.Errors);
         
         await productRepository.Update(product, cancellationToken);
         
