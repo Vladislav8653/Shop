@@ -1,8 +1,6 @@
-﻿using ProductManagement.Application.Contracts.UseCasesContracts;
-using ProductManagement.Infrastructure.Repositories;
+﻿using ProductManagement.Infrastructure.Repositories;
 
-
-namespace ProductManagement.Application.UseCases;
+namespace ProductManagement.Application.UseCases.Commands;
 
 public class DeleteProduct(ProductRepository productRepository) : IDeleteProduct
 {

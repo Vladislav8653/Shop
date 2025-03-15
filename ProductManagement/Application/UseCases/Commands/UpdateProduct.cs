@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using ProductManagement.Application.Contracts.UseCasesContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Infrastructure.Repositories;
 
-namespace ProductManagement.Application.UseCases;
+namespace ProductManagement.Application.UseCases.Commands;
 
 public class UpdateProduct(ProductRepository productRepository, IMapper mapper) : IUpdateProduct
 {

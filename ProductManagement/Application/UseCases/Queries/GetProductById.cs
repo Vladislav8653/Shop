@@ -1,9 +1,8 @@
 ﻿using AutoMapper;
-using ProductManagement.Application.Contracts.UseCasesContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Infrastructure.Repositories;
 
-namespace ProductManagement.Application.UseCases;
+namespace ProductManagement.Application.UseCases.Queries;
 
 public class GetProductById(ProductRepository productRepository, IMapper mapper) : IGetProductById
 {
