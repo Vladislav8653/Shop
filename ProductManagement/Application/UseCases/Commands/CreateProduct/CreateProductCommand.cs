@@ -1,12 +1,9 @@
 ﻿using MediatR;
+using ProductManagement.Application.DTO;
 
 namespace ProductManagement.Application.UseCases.Commands.CreateProduct;
 
 public record CreateProductCommand : IRequest<Unit>
 {
-    public string ProductName { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int Price { get; set; }
-    public bool Available { get; set; }
-    public Guid UserId { get; set; }
+    public ProductRequestDto? NewProduct { get; init; }
 }
