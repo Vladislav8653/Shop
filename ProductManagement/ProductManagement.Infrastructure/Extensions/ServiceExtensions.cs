@@ -5,7 +5,6 @@ using FluentValidation;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using ProductManagement.Application.Contracts.RepositoryContracts;
-using ProductManagement.Application.MappingProfiles;
 using ProductManagement.Infrastructure.Repositories;
 
 namespace ProductManagement.Infrastructure.Extensions;
@@ -13,15 +12,6 @@ namespace ProductManagement.Infrastructure.Extensions;
 
 public static class ServiceExtensions
 {
-    
-    public static void ConfigureAutoMapper(this IServiceCollection services)
-    {
-        services.AddAutoMapper(cfg =>
-        {
-            cfg.AddProfile<ProductMappingProfile>();
-        }, AppDomain.CurrentDomain.GetAssemblies());
-    }
-    
     public static void ConfigureRepository(this IServiceCollection services)
     {
         services.AddScoped<IProductRepository, ProductRepository>();

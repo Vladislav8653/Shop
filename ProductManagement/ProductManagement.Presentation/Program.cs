@@ -1,14 +1,12 @@
-﻿using System.Reflection;
+﻿using MediatR;
 using ProductManagement.Infrastructure.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureRepository();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddValidators();
-//builder.Services.ConfigureAutoMapper();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-builder.Services.AddMediatR(cfg =>
-    cfg.RegisterServicesFromAssembly(Assembly.Load("ProductManagement.Application")));
+builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.ConfigureSwagger();
 
