@@ -28,12 +28,13 @@ public class ProductController(ISender sender) : ControllerBase
         return Ok(products);
     }
 
-    [HttpGet("{id}")]
-    public async Task<IActionResult> GetProductById(Guid id, CancellationToken cancellationToken)
+    [HttpGet("{productId}")]
+    public async Task<IActionResult> GetProductById(Guid productId, 
+        CancellationToken cancellationToken)
     {
         var query = new GetProductByIdCommand
         {
-            ProductId = id
+            ProductId = productId
         };
         var product = await sender.Send(query, cancellationToken);
         return Ok(product);
@@ -51,12 +52,12 @@ public class ProductController(ISender sender) : ControllerBase
         return NoContent();
     }
     
-    [HttpPut]
+    [HttpPut("{productId}")]
     public async Task<IActionResult> UpdateProduct([FromBody] ProductRequestDto request,
-        [FromQuery] Guid productId,
+        Guid productId,
         CancellationToken cancellationToken)
     {
-        var query = new UpdateProductCommand()
+        var query = new UpdateProductCommand
         {
             NewProduct = request,
             ProductId = productId
@@ -65,11 +66,11 @@ public class ProductController(ISender sender) : ControllerBase
         return NoContent();
     }
     
-    [HttpDelete]
-    public async Task<IActionResult> DeleteProduct([FromQuery] Guid productId,
+    [HttpDelete("{productId}")]
+    public async Task<IActionResult> DeleteProduct(Guid productId,
         CancellationToken cancellationToken)
     {
-        var query = new DeleteProductCommand()
+        var query = new DeleteProductCommand
         {
             ProductId = productId
         };

@@ -16,7 +16,9 @@ public class UpdateProductCommandHandler(
     {
         var products = await productRepository.FindByCondition(product => 
                 product.Id == request.ProductId,false, cancellationToken);
-        var product = products.First();
+        var product = products.FirstOrDefault();
+        if (product is null)
+            throw new InvalidOperationException($"Product with id {request.ProductId} not found");
         
         mapper.Map(request.NewProduct, product);
         var validationResult = await validator.ValidateAsync(product, cancellationToken);
