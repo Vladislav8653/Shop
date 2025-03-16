@@ -16,3 +16,9 @@
     build:
       context: .
       dockerfile: ProductManagement/ProductManagement.Presentation/Dockerfile
+
+  usermanagement.presentation:
+    image: usermanagement.presentation
+    build:
+      context: .
+      dockerfile: UserManagement/UserManagement.Presentation/Dockerfile
