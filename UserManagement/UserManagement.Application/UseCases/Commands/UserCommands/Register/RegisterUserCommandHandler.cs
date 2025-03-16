@@ -36,7 +36,7 @@ public class RegisterUserCommandHandler(IMapper mapper, UserManager<User> userMa
         }
         else
         {
-            throw new BadHttpRequestException($"Cannot create a new user, because {result}");
+            throw new BadHttpRequestException($"Cannot create a new user. {result}");
         }
         
         return result;

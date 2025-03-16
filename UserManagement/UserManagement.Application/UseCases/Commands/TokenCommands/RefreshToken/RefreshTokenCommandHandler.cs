@@ -20,13 +20,17 @@ public class RefreshTokenCommandHandler(
     {
         var tokenDto = request.TokenDto;
         var principal = GetPrincipalFromExpiredToken(tokenDto.AccessToken);
+        if (principal.Identity?.Name is null)
+        {
+            throw new UnauthorizedAccessException("Invalid for getting principal access token");
+        }
         var user = await userManager.FindByNameAsync(principal.Identity.Name);
         if (user is null || user.RefreshToken != tokenDto.RefreshToken ||
             user.RefreshTokenExpireTime <= DateTime.UtcNow)
         {
             throw new UnauthorizedAccessException("Invalid refresh token or this token expired.");
         }
-        string token = await authManager.CreateAccessToken(user);
+        var token = await authManager.CreateAccessToken(user);
         return token;
     }
     

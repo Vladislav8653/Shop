@@ -6,7 +6,6 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
-using UserManagement.Application.Contracts;
 using UserManagement.Domain.Models;
 
 namespace UserManagement.Infrastructure.Extensions;
@@ -96,10 +95,5 @@ public static class ServiceExtensions
                 }
             });
         });
-    }
-    
-    public static void ConfigureAuthenticationManager(this IServiceCollection services)
-    {
-        services.AddScoped<IAuthenticationManager, AuthenticationManager>();
     }
 }
