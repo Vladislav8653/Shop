@@ -28,7 +28,7 @@ public class AuthenticationManager(
         var jwtSettings = configuration.GetSection("JwtSettings");
         var refreshTokenLifeTimeStr = jwtSettings.GetSection("RefreshTokenLifeTime").Value;
         if (refreshTokenLifeTimeStr is null)
-            throw new InvalidOperationException ("RefreshTokenLifeTime is null");
+            throw new InvalidOperationException("RefreshTokenLifeTime is null");
         var refreshTokenLifeTime = int.Parse(refreshTokenLifeTimeStr);
         
         _user = user;

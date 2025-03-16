@@ -6,5 +6,5 @@ namespace UserManagement.Application.UseCases.Commands.UserCommands.Register;
 
 public record RegisterUserCommand : IRequest<IdentityResult>
 {
-    public RegisterUserDto RegisterUserDto { get; init; } = null!;
+    public UserRequestDto UserRequestDto { get; init; } = null!;
 }

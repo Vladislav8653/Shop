@@ -25,11 +25,11 @@ public class UsersController(IMediator mediator) : Controller
     
     [HttpPost("register")]
     public async Task<IActionResult> RegisterUser(
-        [FromBody] RegisterUserDto registerUserDto)
+        [FromBody] UserRequestDto userRequestDto)
     {
         var command = new RegisterUserCommand
         {
-            RegisterUserDto = registerUserDto
+            UserRequestDto = userRequestDto
         };
         await mediator.Send(command);
         

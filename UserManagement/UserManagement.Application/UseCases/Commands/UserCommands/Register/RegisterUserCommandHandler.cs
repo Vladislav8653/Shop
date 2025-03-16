@@ -12,7 +12,7 @@ public class RegisterUserCommandHandler(IMapper mapper, UserManager<User> userMa
 {
     public async Task<IdentityResult> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        var userDto = request.RegisterUserDto;
+        var userDto = request.UserRequestDto;
         
         var user = mapper.Map<User>(userDto);
         
@@ -28,7 +28,7 @@ public class RegisterUserCommandHandler(IMapper mapper, UserManager<User> userMa
             throw new DuplicateNameException("User with such email already exists.");
         }
         
-        var result = await userManager.CreateAsync(user, userDto.Password);
+        var result = await userManager.CreateAsync(user, userDto.PasswordHash);
         if (result.Succeeded)
         {
             var userRoleAsString = userDto.Role.ToString();
