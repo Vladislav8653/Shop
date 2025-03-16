@@ -12,8 +12,7 @@ namespace UserManagement.Infrastructure.Services;
 
 public class TokenService(
     UserManager<User> userManager,
-    IConfiguration configuration,
-    User user) : ITokenService
+    IConfiguration configuration) : ITokenService
 {
     public SigningCredentials GetSigningCredentials()
     {
@@ -28,7 +27,7 @@ public class TokenService(
         return new SigningCredentials(secret, SecurityAlgorithms.HmacSha256);
     }
     
-    public async Task<List<Claim>> GetClaims()
+    public async Task<List<Claim>> GetClaims(User user)
     {
         var claims = new List<Claim>
         {

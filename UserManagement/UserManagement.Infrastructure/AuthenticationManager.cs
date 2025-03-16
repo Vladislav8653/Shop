@@ -34,7 +34,7 @@ public class AuthenticationManager(
         _user = user;
         
         var signingCredentials = tokenService.GetSigningCredentials();
-        var claims = await tokenService.GetClaims();
+        var claims = await tokenService.GetClaims(user);
         var tokenOptions = tokenService.GenerateTokenOptions(signingCredentials, claims);
         
         var refreshToken = tokenService.GenerateRefreshToken();
@@ -53,7 +53,7 @@ public class AuthenticationManager(
         _user = user;
         
         var signingCredentials = tokenService.GetSigningCredentials();
-        var claims = await tokenService.GetClaims();
+        var claims = await tokenService.GetClaims(user);
         var tokenOptions = tokenService.GenerateTokenOptions(signingCredentials, claims);
         
         await userManager.UpdateAsync(_user);
