@@ -1,17 +1,33 @@
-var builder = WebApplication.CreateBuilder(args);
+using System.Reflection;
+using MediatR;
+using ProductManagement.Infrastructure.Extensions;
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+var builder = WebApplication.CreateBuilder(args);
+builder.Services.ConfigureRepository();
+builder.Services.ConfigureSqlContext(builder.Configuration);
+builder.Services.AddValidators();
+builder.Services.ConfigureAutoMapper();
+//builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+//builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddMediatR(cfg =>
+    cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+builder.Services.AddControllers();
+builder.Services.ConfigureSwagger();
+
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
+app.UseSwagger();
+app.UseSwaggerUI(s =>
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+    s.SwaggerEndpoint("/swagger/v1/swagger.json", "Inno shop");
+});
+
+app.UseRouting();
+
+app.ConfigureExceptionHandler();
+
+app.MapControllers();
+
 app.Run();
 
