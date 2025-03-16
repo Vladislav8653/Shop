@@ -1,9 +1,9 @@
 ﻿namespace ProductManagement.Application.Filtration;
 
-public class ProductFilters
+public record ProductFilters
 {
-    public string? ProductName { get; set; } = string.Empty;
-    public int? MinPrice { get; set; }
-    public int? MaxPrice { get; set; }
-    public bool? Available { get; set; }
+    public string? ProductName { get; init; } = string.Empty;
+    public int? MinPrice { get; init; }
+    public int? MaxPrice { get; init; }
+    public bool? Available { get; init; }
 }

@@ -11,6 +11,6 @@ public class ProductMappingProfile : Profile
         CreateMap<ProductRequestDto, Product>()
             .ForMember(p => p.CreatedAt, 
                 opt => opt.MapFrom(_ => DateTime.UtcNow));
-        CreateMap<Product, ProductRequestDto>();
+        CreateMap<Product, ProductResponseDto>();
     }
 }

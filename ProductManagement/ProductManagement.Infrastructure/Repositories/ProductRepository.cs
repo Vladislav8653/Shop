@@ -17,13 +17,13 @@ public class ProductRepository(ApplicationContext context) : RepositoryBase<Prod
         IQueryable<Product> query = _context.Products;
         Expression<Func<Product, bool>> filter = p => true;
         if (!string.IsNullOrEmpty(filters.ProductName ))
-            filter = filter.And(p => p.ProductName.Contains(filters.ProductName));
-        if (filters.Available.HasValue && filters.Available.Value)
-            filter.And(product => product.Available == filters.Available.Value);
+            filter = filter.And(p => p.ProductName.ToLower().Contains(filters.ProductName.ToLower()));
+        if (filters.Available.HasValue)
+            filter = filter.And(product => product.Available == filters.Available.Value);
         if (filters.MinPrice is not null)
-            filter.And(product => product.Price >= filters.MinPrice);
+            filter = filter.And(product => product.Price >= filters.MinPrice);
         if (filters.MaxPrice is not null)
-            filter.And(product => product.Price <= filters.MaxPrice);
+            filter = filter.And(product => product.Price <= filters.MaxPrice);
         return await GetByPageAsync(query.Where(filter), pageParams, cancellationToken);
     }
 }
