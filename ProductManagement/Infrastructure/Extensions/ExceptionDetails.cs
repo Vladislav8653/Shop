@@ -1,4 +1,4 @@
-﻿namespace ProductManagement.Presentation.Middlewares;
+﻿namespace ProductManagement.Infrastructure.Extensions;
 
 public class ExceptionDetails
 {
