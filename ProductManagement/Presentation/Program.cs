@@ -5,6 +5,7 @@ using ProductManagement.Infrastructure.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 builder.Services.ConfigureRepository();
 builder.Services.ConfigureSqlContext(builder.Configuration);
+//var a = builder.Configuration.GetConnectionString("sqlConnection");
 builder.Services.AddValidators();
 builder.Services.ConfigureAutoMapper();
 //builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());

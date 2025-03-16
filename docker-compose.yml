@@ -10,3 +10,9 @@
     build:
       context: .
       dockerfile: ProductManagement/Dockerfile
+
+  productmanagement.presentation:
+    image: productmanagement.presentation
+    build:
+      context: .
+      dockerfile: ProductManagement/ProductManagement.Presentation/Dockerfile
