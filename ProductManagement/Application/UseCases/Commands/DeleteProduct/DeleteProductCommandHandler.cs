@@ -1,12 +1,13 @@
 ﻿using FluentValidation;
 using MediatR;
+using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Infrastructure.Repositories;
 
 namespace ProductManagement.Application.UseCases.Commands.DeleteProduct;
 
 public class DeleteProductCommandHandler(
-    ProductRepository productRepository) :
+    IProductRepository productRepository) :
     IRequestHandler<DeleteProductCommand, Unit>
 {
     public async Task<Unit> Handle(DeleteProductCommand request, CancellationToken cancellationToken)

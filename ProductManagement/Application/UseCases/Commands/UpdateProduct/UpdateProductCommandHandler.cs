@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using FluentValidation;
 using MediatR;
+using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Domain.Models;
 using ProductManagement.Infrastructure.Repositories;
@@ -8,7 +9,7 @@ using ProductManagement.Infrastructure.Repositories;
 namespace ProductManagement.Application.UseCases.Commands.UpdateProduct;
 
 public class UpdateProductCommandHandler(
-    ProductRepository productRepository, 
+    IProductRepository productRepository, 
     IMapper mapper,
     IValidator<Product> validator) :
     IRequestHandler<UpdateProductCommand, Unit>

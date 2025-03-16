@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using MediatR;
+using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Application.Pagination;
 using ProductManagement.Infrastructure.Repositories;
@@ -7,7 +8,7 @@ using ProductManagement.Infrastructure.Repositories;
 namespace ProductManagement.Application.UseCases.Queries.GetProducts;
 
 public class GetProductsCommandHandler(
-    ProductRepository productRepository, 
+    IProductRepository productRepository, 
     IMapper mapper) :
     IRequestHandler<GetProductsCommand, PagedResult<ProductResponseDto>>
 {

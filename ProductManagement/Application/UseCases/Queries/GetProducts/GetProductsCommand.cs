@@ -8,5 +8,5 @@ namespace ProductManagement.Application.UseCases.Queries.GetProducts;
 public record GetProductsCommand : IRequest<PagedResult<ProductResponseDto>>
 {
     public PageParams PageParams { get; init; } = null!;
-    public ProductFilters? Filters { get; init; }
+    public ProductFilters Filters { get; init; } = null!;
 }

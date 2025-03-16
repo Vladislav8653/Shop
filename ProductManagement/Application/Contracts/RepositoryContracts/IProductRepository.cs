@@ -4,7 +4,7 @@ using ProductManagement.Domain.Models;
 
 namespace ProductManagement.Application.Contracts.RepositoryContracts;
 
-public interface IProductRepository
+public interface IProductRepository : IRepositoryBase<Product>
 {
     Task<PagedResult<Product>> GetByParamsAsync(PageParams pageParams, ProductFilters filters,
         CancellationToken cancellationToken);

@@ -1,12 +1,13 @@
 ﻿using AutoMapper;
 using MediatR;
+using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Infrastructure.Repositories;
 
 namespace ProductManagement.Application.UseCases.Queries.GetProductById;
 
 public class GetProductByIdCommandHandler(
-    ProductRepository productRepository,
+    IProductRepository productRepository,
     IMapper mapper) : 
     IRequestHandler<GetProductByIdCommand, ProductResponseDto>
 {
