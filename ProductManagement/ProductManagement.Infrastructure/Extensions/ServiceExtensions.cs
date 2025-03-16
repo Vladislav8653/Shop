@@ -2,6 +2,8 @@
 using Microsoft.OpenApi.Models;
 using ProductManagement.Application.Validation;
 using FluentValidation;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.MappingProfiles;
 using ProductManagement.Infrastructure.Repositories;

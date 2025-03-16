@@ -3,7 +3,6 @@ using MediatR;
 using ProductManagement.Application.Contracts.RepositoryContracts;
 using ProductManagement.Application.DTO;
 using ProductManagement.Application.Pagination;
-using ProductManagement.Infrastructure.Repositories;
 
 namespace ProductManagement.Application.UseCases.Queries.GetProducts;
 
