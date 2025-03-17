@@ -14,7 +14,7 @@ namespace UserManagement.Presentation.Controllers;
 public class UsersController(IMediator mediator) : ControllerBase
 {
     [HttpGet("getAllUsers")]
-    [Authorize(Policy = "Admin")]
+    [Authorize/*(Policy = "Admin")*/]
     public async Task<IActionResult> GetAllUsers()
     {
         var query = new GetAllUsersQuery();

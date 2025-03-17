@@ -49,7 +49,7 @@ public class TokenService(
         var jwtSettings = configuration.GetSection("JwtSettings");
         var tokenOptions = new JwtSecurityToken
         (
-            issuer: jwtSettings.GetSection("validIssuer").Value,
+            //issuer: jwtSettings.GetSection("validIssuer").Value,
             //audience: jwtSettings.GetSection("validAudience").Value,
             claims: claims,
             expires:

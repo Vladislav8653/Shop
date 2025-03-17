@@ -5,7 +5,7 @@ namespace UserManagement.Application.Contracts;
 
 public interface IAuthenticationManager
 {
-    Task<bool> ValidateUser(AuthenticateUserDto userForAuth);
+    Task<User> ValidateUser(AuthenticateUserDto userForAuth);
     
     Task<TokenDto> CreateTokens(User user, bool populateExp);
     

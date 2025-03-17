@@ -16,18 +16,7 @@ public class AuthenticateUserCommandHandler(
     {
         var userForLogin = request.AuthenticateUserDto;
         
-        var user = await userManager.FindByNameAsync(userForLogin.UserName);
-        if (user == null)
-        {
-            throw new UnauthorizedAccessException("Cannot find user");
-        }
-
-        if (!await userManager.CheckPasswordAsync(user, userForLogin.Password))
-        {
-            throw new UnauthorizedAccessException("Invalid password");
-        }
-        
-        await authManager.ValidateUser(userForLogin);
+        var user = await authManager.ValidateUser(userForLogin);
         
         var tokenDto = await authManager.CreateTokens(user, populateExp: true);
         if (tokenDto.AccessToken == null || tokenDto.RefreshToken == null)

@@ -45,17 +45,13 @@ public static class ServiceExtensions
         var secretKey = jwtSettings["ValidIssuer"];
         if (string.IsNullOrEmpty(secretKey))
             throw new InvalidOperationException("Invalid secret key");
-        services.AddAuthentication(options =>
-            {
-                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-            })
-            .AddJwtBearer(options =>
+        services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+            .AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, options =>
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    //ValidateIssuer = true,
-                    //ValidateAudience = true,
+                    ValidateIssuer = true,
+                    //ValidateAudience = true, 
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
                     ValidIssuer = jwtSettings["ValidIssuer"],
