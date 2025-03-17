@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Application.DTO;
@@ -49,6 +50,7 @@ public class ProductController(ISender sender) : ControllerBase
     {
         var query = new CreateProductCommand
         {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
             NewProduct = request
         };
         await sender.Send(query, cancellationToken);
@@ -63,6 +65,7 @@ public class ProductController(ISender sender) : ControllerBase
     {
         var query = new UpdateProductCommand
         {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
             NewProduct = request,
             ProductId = productId
         };
@@ -77,6 +80,7 @@ public class ProductController(ISender sender) : ControllerBase
     {
         var query = new DeleteProductCommand
         {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
             ProductId = productId
         };
         await sender.Send(query, cancellationToken);

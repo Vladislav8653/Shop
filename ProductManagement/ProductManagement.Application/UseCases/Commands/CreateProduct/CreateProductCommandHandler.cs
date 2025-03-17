@@ -14,8 +14,12 @@ public class CreateProductCommandHandler(
 {
     public async Task<Unit> Handle(CreateProductCommand request, CancellationToken cancellationToken)
     {
-        //проверить на уникальность имени
+        if (!Guid.TryParse(request.UserId, out var userIdGuid))
+        {
+            throw new ValidationException("UserId is invalid");
+        }
         var product = mapper.Map<Product>(request.NewProduct);
+        product.UserId = userIdGuid;
         var validationResult = await validator.ValidateAsync(product, cancellationToken);
         if (!validationResult.IsValid)
             throw new ValidationException(validationResult.Errors);
