@@ -50,7 +50,7 @@ public class TokenService(
         var tokenOptions = new JwtSecurityToken
         (
             issuer: jwtSettings.GetSection("validIssuer").Value,
-            audience: jwtSettings.GetSection("validAudience").Value,
+            //audience: jwtSettings.GetSection("validAudience").Value,
             claims: claims,
             expires:
             DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)),

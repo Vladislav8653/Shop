@@ -17,9 +17,14 @@ public class AuthenticateUserCommandHandler(
         var userForLogin = request.AuthenticateUserDto;
         
         var user = await userManager.FindByNameAsync(userForLogin.UserName);
-        if (user == null || !await userManager.CheckPasswordAsync(user, userForLogin.Password))
+        if (user == null)
         {
             throw new UnauthorizedAccessException("Cannot find user");
+        }
+
+        if (!await userManager.CheckPasswordAsync(user, userForLogin.Password))
+        {
+            throw new UnauthorizedAccessException("Invalid password");
         }
         
         await authManager.ValidateUser(userForLogin);

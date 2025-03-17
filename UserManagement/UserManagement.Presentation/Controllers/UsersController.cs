@@ -11,7 +11,7 @@ namespace UserManagement.Presentation.Controllers;
 
 [Route("api/users")]
 [ApiController]
-public class UsersController(IMediator mediator) : Controller
+public class UsersController(IMediator mediator) : ControllerBase
 {
     [HttpGet("getAllUsers")]
     [Authorize(Policy = "Admin")]

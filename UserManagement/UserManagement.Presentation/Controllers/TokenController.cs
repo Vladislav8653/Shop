@@ -9,7 +9,7 @@ namespace UserManagement.Presentation.Controllers;
 [Route("api/token")]
 [ApiController]
 public class TokenController(
-    IMediator mediator) : Controller
+    IMediator mediator) : ControllerBase
 {
     [HttpPost("refresh")]
     [Authorize]
