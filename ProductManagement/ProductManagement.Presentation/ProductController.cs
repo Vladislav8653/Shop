@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ProductManagement.Application.DTO;
 using ProductManagement.Application.Filtration;
@@ -28,6 +29,7 @@ public class ProductController(ISender sender) : ControllerBase
         return Ok(products);
     }
 
+    
     [HttpGet("{productId}")]
     public async Task<IActionResult> GetProductById(Guid productId, 
         CancellationToken cancellationToken)
@@ -40,6 +42,7 @@ public class ProductController(ISender sender) : ControllerBase
         return Ok(product);
     }
 
+    [Authorize]
     [HttpPost]
     public async Task<IActionResult> CreateProduct([FromBody] ProductRequestDto request,
         CancellationToken cancellationToken)
@@ -52,6 +55,7 @@ public class ProductController(ISender sender) : ControllerBase
         return NoContent();
     }
     
+    [Authorize]
     [HttpPut("{productId}")]
     public async Task<IActionResult> UpdateProduct([FromBody] ProductRequestDto request,
         Guid productId,
@@ -66,6 +70,7 @@ public class ProductController(ISender sender) : ControllerBase
         return NoContent();
     }
     
+    [Authorize]
     [HttpDelete("{productId}")]
     public async Task<IActionResult> DeleteProduct(Guid productId,
         CancellationToken cancellationToken)

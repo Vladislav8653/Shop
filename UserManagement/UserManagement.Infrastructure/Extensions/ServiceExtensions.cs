@@ -42,7 +42,7 @@ public static class ServiceExtensions
     public static void ConfigureJwt(this IServiceCollection services, IConfiguration configuration)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings["ValidIssuer"];
+        var secretKey = jwtSettings["SecretKey"];
         if (string.IsNullOrEmpty(secretKey))
             throw new InvalidOperationException("Invalid secret key");
         services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -50,12 +50,10 @@ public static class ServiceExtensions
             {
                 options.TokenValidationParameters = new TokenValidationParameters
                 {
-                    ValidateIssuer = true,
-                    //ValidateAudience = true, 
+                    ValidateIssuer = false,
+                    ValidateAudience = false,
                     ValidateLifetime = true,
                     ValidateIssuerSigningKey = true,
-                    ValidIssuer = jwtSettings["ValidIssuer"],
-                    //ValidAudience = jwtSettings["ValidAudience"],
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });
@@ -65,7 +63,7 @@ public static class ServiceExtensions
     {
         services.AddSwaggerGen(s =>
         {
-            s.SwaggerDoc("v1", new OpenApiInfo { Title = "Inno shop API", Version = "v1"
+            s.SwaggerDoc("v1", new OpenApiInfo { Title = "User management", Version = "v1"
             });
             s.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
             {

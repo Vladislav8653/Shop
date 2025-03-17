@@ -18,7 +18,7 @@ public class TokenService(
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
         
-        var secretKey = jwtSettings.GetSection("validIssuer").Value;
+        var secretKey = jwtSettings.GetSection("SecretKey").Value;
         
         var key = Encoding.UTF8.GetBytes(secretKey!);
         
@@ -49,8 +49,6 @@ public class TokenService(
         var jwtSettings = configuration.GetSection("JwtSettings");
         var tokenOptions = new JwtSecurityToken
         (
-            //issuer: jwtSettings.GetSection("validIssuer").Value,
-            //audience: jwtSettings.GetSection("validAudience").Value,
             claims: claims,
             expires:
             DateTime.Now.AddMinutes(Convert.ToDouble(jwtSettings.GetSection("expires").Value)),

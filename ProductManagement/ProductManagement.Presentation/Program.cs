@@ -6,6 +6,8 @@ builder.Services.ConfigureRepository();
 builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddValidators();
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+builder.Services.AddAuthorizationPolicy();
+builder.Services.ConfigureJwt(builder.Configuration);
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.AddControllers();
 builder.Services.ConfigureSwagger();
@@ -22,6 +24,9 @@ app.UseSwaggerUI(s =>
 app.UseRouting();
 
 app.ConfigureExceptionHandler();
+
+app.UseAuthentication();
+app.UseAuthorization();
 
 app.MapControllers();
 
