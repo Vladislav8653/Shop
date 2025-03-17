@@ -1,10 +1,11 @@
-﻿namespace ProductManagement.Application.DTO;
+﻿using System.Text.Json.Serialization;
 
-public class ProductRequestDto
+namespace ProductManagement.Application.DTO;
+
+public record ProductRequestDto
 {
-    public string ProductName { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int Price { get; set; }
-    public bool Available { get; set; }
-    public Guid UserId { get; set; }
+    public string ProductName { get; init; } = null!;
+    public string Description { get; init; } = null!;
+    public int Price { get; init; }
+    public bool Available { get; init; }
 }

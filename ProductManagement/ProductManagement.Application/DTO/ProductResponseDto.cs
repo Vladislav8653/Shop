@@ -1,12 +1,12 @@
 ﻿namespace ProductManagement.Application.DTO;
 
-public class ProductResponseDto
+public record ProductResponseDto
 {
-    public Guid Id { get; set; }
-    public string ProductName { get; set; } = string.Empty;
-    public string Description { get; set; } = string.Empty;
-    public int Price { get; set; }
-    public bool Available { get; set; }
-    public Guid UserId { get; set; }
-    public DateTime CreatedAt { get; set; }
+    public Guid Id { get; init; }
+    public string ProductName { get; init; } = null!;
+    public string Description { get; init; } = null!;
+    public int Price { get; init; }
+    public bool Available { get; init; }
+    public Guid UserId { get; init; }
+    public DateTime CreatedAt { get; init; }
 }
