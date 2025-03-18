@@ -4,6 +4,7 @@ using Microsoft.OpenApi.Models;
 using ProductManagement.Application.Validation;
 using FluentValidation;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
@@ -76,6 +77,7 @@ public static class ServiceExtensions
                     ValidateLifetime = true,
                     ValidateAudience = false,
                     ValidateIssuerSigningKey = true,
+                    ClockSkew = TimeSpan.Zero,
                     IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(secretKey))
                 };
             });
@@ -89,4 +91,11 @@ public static class ServiceExtensions
             options.AddPolicy("User", policy =>
                 policy.RequireRole("User")); 
         });
+    
+    public static void ApplyMigrations(this IApplicationBuilder app)
+    {
+        using var scope = app.ApplicationServices.CreateScope();
+        var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationContext>();
+        dbContext.Database.Migrate();
+    }
 }

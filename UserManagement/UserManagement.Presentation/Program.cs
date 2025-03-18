@@ -35,4 +35,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+//app.ApplyMigrations(); // авто миграции для докера
+
 app.Run();
