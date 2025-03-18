@@ -1,7 +1,7 @@
 ﻿using UserManagement.Application.DTO;
 using UserManagement.Domain.Models;
 
-namespace UserManagement.Application.Contracts;
+namespace UserManagement.Application.Contracts.AuthenticationContracts;
 
 public interface IAuthenticationManager
 {

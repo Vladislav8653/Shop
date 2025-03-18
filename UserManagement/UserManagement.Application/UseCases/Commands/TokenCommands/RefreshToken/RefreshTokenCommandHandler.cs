@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using UserManagement.Application.Contracts;
+using UserManagement.Application.Contracts.AuthenticationContracts;
 using UserManagement.Domain.Models;
 
 namespace UserManagement.Application.UseCases.Commands.TokenCommands.RefreshToken;

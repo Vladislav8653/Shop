@@ -1,5 +1,7 @@
 using MediatR;
-using UserManagement.Application.Contracts;
+using UserManagement.Application.Contracts.AuthenticationContracts;
+using UserManagement.Application.Contracts.SmtpContracts;
+using UserManagement.Application.EmailService;
 using UserManagement.Application.MappingProfiles;
 using UserManagement.Infrastructure;
 using UserManagement.Infrastructure.Extensions;
@@ -11,6 +13,7 @@ builder.Services.ConfigureSqlContext(builder.Configuration);
 builder.Services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
+builder.Services.AddScoped<ISmtpService, SmtpService>();
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.ConfigureIdentity();
 builder.Services.AddAuthorizationPolicy();

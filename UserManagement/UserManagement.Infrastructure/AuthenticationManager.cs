@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Configuration;
 using UserManagement.Application.Contracts;
+using UserManagement.Application.Contracts.AuthenticationContracts;
 using UserManagement.Application.DTO;
 using UserManagement.Domain.CustomExceptions;
 using UserManagement.Domain.Models;

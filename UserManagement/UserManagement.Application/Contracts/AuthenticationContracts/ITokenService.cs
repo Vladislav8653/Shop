@@ -3,7 +3,7 @@ using System.Security.Claims;
 using Microsoft.IdentityModel.Tokens;
 using UserManagement.Domain.Models;
 
-namespace UserManagement.Application.Contracts;
+namespace UserManagement.Application.Contracts.AuthenticationContracts;
 
 public interface ITokenService
 {
