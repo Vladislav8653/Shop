@@ -1,24 +1,42 @@
 ﻿services:
-  usermanagement:
-    image: usermanagement
-    build:
-      context: .
-      dockerfile: UserManagement/Dockerfile
-
   productmanagement:
-    image: productmanagement
+    image: product_management:innowise
     build:
       context: .
       dockerfile: ProductManagement/Dockerfile
+    ports:
+      - "2000:2000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=2000
+      #- ASPNETCORE_HTTPS_PORTS=2001
+    depends_on:
+      - db
 
-  productmanagement.presentation:
-    image: productmanagement.presentation
+  usermanagement:
+    image: user_management:innowise
     build:
       context: .
-      dockerfile: ProductManagement/ProductManagement.Presentation/Dockerfile
+      dockerfile: UserManagement/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_HTTP_PORTS=3000
+      #- ASPNETCORE_HTTPS_PORTS=3001
+    depends_on:
+      - db
 
-  usermanagement.presentation:
-    image: usermanagement.presentation
-    build:
-      context: .
-      dockerfile: UserManagement/UserManagement.Presentation/Dockerfile
+  db:
+    container_name: postgres_shop
+    image: postgres:latest
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=8653
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

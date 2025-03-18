@@ -1,23 +1,38 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
+﻿# Используем официальный образ .NET
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 2000
 
+# Используем образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["ProductManagement/ProductManagement.csproj", "ProductManagement/"]
-RUN dotnet restore "ProductManagement/ProductManagement.csproj"
-COPY . .
-WORKDIR "/src/ProductManagement"
-RUN dotnet build "ProductManagement.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Копируем все проекты в папку /src
+COPY ProductManagement.Presentation/ProductManagement.Presentation.csproj ProductManagement.Presentation/
+COPY ProductManagement.Infrastructure/ProductManagement.Infrastructure.csproj ProductManagement.Infrastructure/
+COPY ProductManagement.Application/ProductManagement.Application.csproj ProductManagement.Application/
+COPY ProductManagement.Domain/ProductManagement.Domain.csproj ProductManagement.Domain/
+#COPY ProductManagement.Tests/ProductManagement.Tests.csproj ProductManagement.Tests/
+
+# Восстанавливаем зависимости
+RUN dotnet restore ProductManagement.Presentation/ProductManagement.Presentation.csproj
+
+# Копируем все файлы проекта
+COPY ProductManagement.Presentation/ ProductManagement.Presentation/
+COPY ProductManagement.Infrastructure/ ProductManagement.Infrastructure/
+COPY ProductManagement.Application/ ProductManagement.Application/
+COPY ProductManagement.Domain/ ProductManagement.Domain/
+#COPY Tests/ Tests/
+
+# Строим проект
+WORKDIR "ProductManagement.Presentation"
+RUN dotnet build "ProductManagement.Presentation.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "ProductManagement.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "ProductManagement.Presentation.csproj" -c Release -o /app/publish
 
+# Стартуем приложение
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "ProductManagement.dll"]
+ENTRYPOINT ["dotnet", "ProductManagement.Presentation.dll"]

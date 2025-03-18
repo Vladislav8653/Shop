@@ -1,23 +1,38 @@
-﻿FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
-USER $APP_UID
+﻿# Используем официальный образ .NET
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-EXPOSE 8080
-EXPOSE 8081
+EXPOSE 3000
 
+# Используем образ для сборки
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
-COPY ["UserManagement/UserManagement.csproj", "UserManagement/"]
-RUN dotnet restore "UserManagement/UserManagement.csproj"
-COPY . .
-WORKDIR "/src/UserManagement"
-RUN dotnet build "UserManagement.csproj" -c $BUILD_CONFIGURATION -o /app/build
+
+# Копируем все проекты в папку /src
+COPY UserManagement.Presentation/UserManagement.Presentation.csproj UserManagement.Presentation/
+COPY UserManagement.Infrastructure/UserManagement.Infrastructure.csproj UserManagement.Infrastructure/
+COPY UserManagement.Application/UserManagement.Application.csproj UserManagement.Application/
+COPY UserManagement.Domain/UserManagement.Domain.csproj UserManagement.Domain/
+#COPY UserManagement.Tests/UserManagement.Tests.csproj UserManagement.Tests/
+
+# Восстанавливаем зависимости
+RUN dotnet restore UserManagement.Presentation/UserManagement.Presentation.csproj
+
+# Копируем все файлы проекта
+COPY UserManagement.Presentation/ UserManagement.Presentation/
+COPY UserManagement.Infrastructure/ UserManagement.Infrastructure/
+COPY UserManagement.Application/ UserManagement.Application/
+COPY UserManagement.Domain/ UserManagement.Domain/
+#COPY Tests/ Tests/
+
+# Строим проект
+WORKDIR "UserManagement.Presentation"
+RUN dotnet build "UserManagement.Presentation.csproj" -c Release -o /app/build
 
 FROM build AS publish
-ARG BUILD_CONFIGURATION=Release
-RUN dotnet publish "UserManagement.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
+RUN dotnet publish "UserManagement.Presentation.csproj" -c Release -o /app/publish
 
+# Стартуем приложение
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "UserManagement.dll"]
+ENTRYPOINT ["dotnet", "UserManagement.Presentation.dll"]
