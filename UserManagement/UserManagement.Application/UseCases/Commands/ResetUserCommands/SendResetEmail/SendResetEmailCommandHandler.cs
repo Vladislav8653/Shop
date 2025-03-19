@@ -1,6 +1,5 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
-using UserManagement.Application.Contracts.ConfirmTokenContracts;
 using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Domain.Models;
 
@@ -8,8 +7,7 @@ namespace UserManagement.Application.UseCases.Commands.ResetUserCommands.SendRes
 
 public class SendResetEmailCommandHandler(
     UserManager<User> userManager,
-    ISmtpService smtpService,
-    IConfirmationTokenService confirmationTokenService)
+    ISmtpService smtpService)
     : IRequestHandler<SendResetEmailCommand, string>
 {
     public async Task<string> Handle(SendResetEmailCommand request, CancellationToken cancellationToken)
@@ -21,7 +19,7 @@ public class SendResetEmailCommandHandler(
         }
         
         const string subject = "Reset Password";
-        var body = $"Your reset token: {confirmationTokenService.CreateConfirmToken(user.Id)}";
+        var body = $"Your reset token: {await userManager.GeneratePasswordResetTokenAsync(user)}";
         await smtpService.SendEmailAsync(
             user.UserName!, user.Email!, subject, body);
         return "Reset token sent successfully.";

@@ -1,9 +1,6 @@
-﻿using System.Security.Cryptography;
-using System.Text;
-using FluentValidation;
+﻿using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
-using UserManagement.Application.Contracts.ConfirmTokenContracts;
 using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Domain.Models;
 
@@ -11,8 +8,7 @@ namespace UserManagement.Application.UseCases.Commands.ConfirmUserCommands.SendC
 
 public class SendConfirmationCommandHandler(
     ISmtpService smtpService,
-    UserManager<User> userManager,
-    IConfirmationTokenService confirmationTokenService) : 
+    UserManager<User> userManager) : 
     IRequestHandler<SendConfirmationCommand, string>
 {
     public async Task<string> Handle(SendConfirmationCommand request, CancellationToken cancellationToken)
@@ -32,10 +28,8 @@ public class SendConfirmationCommandHandler(
         {
             throw new InvalidOperationException($"User with email {user.Email} already confirmed");
         }
-
-        var hashUserId = confirmationTokenService.CreateConfirmToken(request.UserId);
         
-        var emailBody = $"Your confirmation code: {hashUserId}";
+        var emailBody = $"Your confirmation code: {await userManager.GenerateEmailConfirmationTokenAsync(user)}";
 
         await smtpService.SendEmailAsync(user.UserName!, user.Email!, "Confirm your email", emailBody);
         return "Your confirmation code was sent on email.";
