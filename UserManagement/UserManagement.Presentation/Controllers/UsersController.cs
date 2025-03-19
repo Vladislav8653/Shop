@@ -1,10 +1,13 @@
-﻿using MediatR;
+﻿using System.Security.Claims;
+using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Application.DTO;
 using UserManagement.Application.UseCases.Commands.UserCommands.Authenticate;
 using UserManagement.Application.UseCases.Commands.UserCommands.DeleteById;
 using UserManagement.Application.UseCases.Commands.UserCommands.Register;
+using UserManagement.Application.UseCases.Commands.UserCommands.SendConfirmation;
 using UserManagement.Application.UseCases.Queries.UserQueries.GetAllUsers;
 
 namespace UserManagement.Presentation.Controllers;
@@ -14,7 +17,7 @@ namespace UserManagement.Presentation.Controllers;
 public class UsersController(IMediator mediator) : ControllerBase
 {
     [HttpGet("getAllUsers")]
-    [Authorize/*(Policy = "Admin")*/]
+    [Authorize(Policy = "Admin")]
     public async Task<IActionResult> GetAllUsers()
     {
         var query = new GetAllUsersQuery();
@@ -59,5 +62,29 @@ public class UsersController(IMediator mediator) : ControllerBase
         await mediator.Send(command);
         
         return Ok();
+    }
+
+    [HttpGet("forgerPassword")]
+    public async Task<IActionResult> SendNewPassword()
+    {
+        return NoContent();
+    }
+    
+    [HttpPost("confirmEmail")]
+    public async Task<IActionResult> ConfirmEmail() 
+    {
+       
+        return NoContent();
+    }
+    
+    [HttpGet("SendConfirmation")]
+    public async Task<IActionResult> SendConfirmationEmail() // отправляет по email код
+    {
+        var query = new SendConfirmationCommand
+        {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
+        };
+        await mediator.Send(query);
+        return NoContent();
     }
 }
