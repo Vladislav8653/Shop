@@ -5,10 +5,11 @@ using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Application.DTO;
 using UserManagement.Application.UseCases.Commands.UserCommands.Authenticate;
+using UserManagement.Application.UseCases.Commands.UserCommands.ConfirmEmail;
 using UserManagement.Application.UseCases.Commands.UserCommands.DeleteById;
 using UserManagement.Application.UseCases.Commands.UserCommands.Register;
-using UserManagement.Application.UseCases.Commands.UserCommands.SendConfirmation;
 using UserManagement.Application.UseCases.Queries.UserQueries.GetAllUsers;
+using UserManagement.Application.UseCases.Queries.UserQueries.SendConfirmation;
 
 namespace UserManagement.Presentation.Controllers;
 
@@ -64,27 +65,36 @@ public class UsersController(IMediator mediator) : ControllerBase
         return Ok();
     }
 
-    [HttpGet("forgerPassword")]
+    /*[HttpGet("forgerPassword")]
     public async Task<IActionResult> SendNewPassword()
     {
         return NoContent();
-    }
+    }*/
     
+    [Authorize]
     [HttpPost("confirmEmail")]
-    public async Task<IActionResult> ConfirmEmail() 
+    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailCommand confirmEmailCommand)
     {
-       
-        return NoContent();
+        var query = new ConfirmEmailCommand
+        {
+            UserId = User.FindFirstValue(ClaimTypes.NameIdentifier),
+            ConfirmationCode = confirmEmailCommand.ConfirmationCode,
+        };
+        
+        var result = await mediator.Send(query);
+        
+        return Ok(result);
     }
     
-    [HttpGet("SendConfirmation")]
+    [Authorize]
+    [HttpGet("sendConfirmation")]
     public async Task<IActionResult> SendConfirmationEmail() // отправляет по email код
     {
         var query = new SendConfirmationCommand
         {
             UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
         };
-        await mediator.Send(query);
-        return NoContent();
+        var result = await mediator.Send(query);
+        return Ok(result);
     }
 }

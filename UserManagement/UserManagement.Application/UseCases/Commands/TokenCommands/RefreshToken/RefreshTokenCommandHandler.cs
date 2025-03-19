@@ -38,7 +38,7 @@ public class RefreshTokenCommandHandler(
     private ClaimsPrincipal GetPrincipalFromExpiredToken(string token)
     {
         var jwtSettings = configuration.GetSection("JwtSettings");
-        var secretKey = jwtSettings.GetSection("validIssuer").Value;
+        var secretKey = jwtSettings.GetSection("SecretKey").Value;
         var tokenValidationParameters = new TokenValidationParameters
         {
             ValidateAudience = false,

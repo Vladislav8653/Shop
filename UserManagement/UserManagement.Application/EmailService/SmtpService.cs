@@ -21,13 +21,14 @@ public class SmtpService(IConfiguration configuration) : ISmtpService
             Text = body
         };
         
+        var senderEmail = emailConfiguration["SenderEmail"];
+        var senderPassword = emailConfiguration["Password"];
         using (var client = new SmtpClient())
         {
-            await client.ConnectAsync(configuration["SmtpServer"], 
-                int.Parse(configuration["Port"]!), 
-                MailKit.Security.SecureSocketOptions.StartTls);
-            await client.AuthenticateAsync(emailConfiguration["SenderEmail"],
-                emailConfiguration["Password"]);
+            await client.ConnectAsync(emailConfiguration["SmtpServer"], 
+                int.Parse(emailConfiguration["Port"]!), 
+                MailKit.Security.SecureSocketOptions.SslOnConnect);
+            await client.AuthenticateAsync(senderEmail, senderPassword);
             await client.SendAsync(message);
             await client.DisconnectAsync(true);
         }

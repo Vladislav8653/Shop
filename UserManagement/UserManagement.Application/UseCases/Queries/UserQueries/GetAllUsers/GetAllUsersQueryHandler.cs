@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Domain.Models;
 
 namespace UserManagement.Application.UseCases.Queries.UserQueries.GetAllUsers;
@@ -14,7 +15,7 @@ public class GetAllUsersQueryHandler(
         CancellationToken cancellationToken)
     {
         var users = await userManager.Users.ToListAsync(cancellationToken);
-        
+            
         return users;
     }
 }

@@ -12,7 +12,6 @@ public class TokenController(
     IMediator mediator) : ControllerBase
 {
     [HttpPost("refresh")]
-    [Authorize]
     public async Task<IActionResult> Refresh([FromBody] TokenDto tokenDto)
     {
         var command = new RefreshTokenCommand

@@ -1,12 +1,12 @@
 ﻿using System.Security.Cryptography;
 using System.Text;
 using FluentValidation;
-using MediatR;  
+using MediatR;
 using Microsoft.AspNetCore.Identity;
 using UserManagement.Application.Contracts.SmtpContracts;
 using UserManagement.Domain.Models;
 
-namespace UserManagement.Application.UseCases.Commands.UserCommands.SendConfirmation;
+namespace UserManagement.Application.UseCases.Queries.UserQueries.SendConfirmation;
 
 public class SendConfirmationCommandHandler(
     ISmtpService smtpService,
@@ -25,10 +25,16 @@ public class SendConfirmationCommandHandler(
         {
             throw new InvalidOperationException($"User with id {request.UserId} not found");
         }
+
+        if (user.EmailConfirmed)
+        {
+            throw new InvalidOperationException($"User with email {user.Email} already confirmed");
+        }
         
         var hashUserId = SHA256.HashData(Encoding.UTF8.GetBytes(request.UserId));
+        var hashString = Convert.ToBase64String(hashUserId);
         
-        var emailBody = $"Your confirmation code: {hashUserId}";
+        var emailBody = $"Your confirmation code: {hashString}";
 
         await smtpService.SendEmailAsync(user.UserName!, user.Email!, "Confirm your email", emailBody);
         return "Your confirmation code was sent on email.";
