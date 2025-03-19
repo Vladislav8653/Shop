@@ -13,7 +13,8 @@ public class GetProductByIdCommandHandler(
     public async Task<ProductResponseDto> Handle(GetProductByIdCommand request, CancellationToken cancellationToken)
     {
         var products = await productRepository.FindByCondition(
-            product => product.Id == request.ProductId, false, cancellationToken);
+            product => product.Id == request.ProductId &&
+            product.IsActive == true, false, cancellationToken);
         var product = products.FirstOrDefault();
         if (product is null)
             throw new InvalidOperationException($"Product with id {request.ProductId} not found");

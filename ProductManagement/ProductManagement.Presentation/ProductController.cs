@@ -86,4 +86,6 @@ public class ProductController(ISender sender) : ControllerBase
         await sender.Send(query, cancellationToken);
         return NoContent();
     }
+    
+    
 }

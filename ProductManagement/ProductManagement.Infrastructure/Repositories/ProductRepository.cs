@@ -12,10 +12,11 @@ public class ProductRepository(ApplicationContext context) : RepositoryBase<Prod
     private readonly ApplicationContext _context = context;
 
     public async Task<PagedResult<Product>> GetByParamsAsync(PageParams pageParams, ProductFilters filters, 
-        CancellationToken cancellationToken)
+        Expression<Func<Product, bool>> expression, CancellationToken cancellationToken)
     {
         IQueryable<Product> query = _context.Products;
         Expression<Func<Product, bool>> filter = p => true;
+        filter = filter.And(expression);
         if (!string.IsNullOrEmpty(filters.ProductName ))
             filter = filter.And(p => p.ProductName.ToLower().Contains(filters.ProductName.ToLower()));
         if (filters.Available.HasValue)
