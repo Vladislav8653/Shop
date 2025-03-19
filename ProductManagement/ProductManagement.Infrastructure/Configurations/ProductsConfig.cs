@@ -13,6 +13,7 @@ public class ProductsConfig : IEntityTypeConfiguration<Product>
             .HasMaxLength(100);
         builder.Property(p => p.Description)
             .HasMaxLength(1000);
-
+        builder.Property(p => p.IsActive)
+            .HasDefaultValue(true);
     }
 }
