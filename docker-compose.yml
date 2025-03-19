@@ -1,29 +1,27 @@
 ﻿services:
   productmanagement:
-    image: product_management:innowise
+    image: products:shop
     build:
-      context: .
-      dockerfile: ProductManagement/Dockerfile
+      context: ./ProductManagement
+      dockerfile: Dockerfile
     ports:
       - "2000:2000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=2000
-      #- ASPNETCORE_HTTPS_PORTS=2001
     depends_on:
       - db
 
   usermanagement:
-    image: user_management:innowise
+    image: users:shop
     build:
-      context: .
-      dockerfile: UserManagement/Dockerfile
+      context: ./UserManagement
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
     environment:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_HTTP_PORTS=3000
-      #- ASPNETCORE_HTTPS_PORTS=3001
     depends_on:
       - db
 

@@ -19,6 +19,7 @@ app.UseSwagger();
 app.UseSwaggerUI(s =>
 {
     s.SwaggerEndpoint("/swagger/v1/swagger.json", "Inno shop");
+    s.RoutePrefix = string.Empty;
 });
 
 app.UseRouting();
@@ -30,6 +31,6 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-//app.ApplyMigrations();
+app.ApplyMigrations();
 
 app.Run();
