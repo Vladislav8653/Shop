@@ -3,13 +3,14 @@ using System.Text;
 using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
+using UserManagement.Application.Contracts.ConfirmTokenContracts;
 using UserManagement.Domain.CustomExceptions;
 using UserManagement.Domain.Models;
 
-namespace UserManagement.Application.UseCases.Commands.UserCommands.ConfirmEmail;
+namespace UserManagement.Application.UseCases.Commands.ConfirmUserCommands.ConfirmEmail;
 
 public class ConfirmEmailCommandHandler
-    (UserManager<User> userManager)
+    (UserManager<User> userManager, IConfirmationTokenService confirmationTokenService)
     : IRequestHandler<ConfirmEmailCommand, string>
 {
     public async Task<string> Handle(ConfirmEmailCommand request, CancellationToken cancellationToken)
@@ -24,16 +25,15 @@ public class ConfirmEmailCommandHandler
         {
             throw new InvalidOperationException($"User with id {request.UserId} not found");
         }
-        
-        var hashUserId = SHA256.HashData(Encoding.UTF8.GetBytes(request.UserId));
-        var hashString = Convert.ToBase64String(hashUserId);
 
-        if (!string.Equals(hashString, request.ConfirmationCode))
+        if (!confirmationTokenService.ValidateToken(request.ConfirmationCode, request.UserId))
         {
             throw new EmailNotConfirmedException("Confirmation code is invalid");
         }
         user.EmailConfirmed = true;
+        
         await userManager.UpdateAsync(user);
+        
         return "Confirmed.";
     }
 }
