@@ -1,6 +1,6 @@
 ﻿using MediatR;
 
-namespace UserManagement.Application.UseCases.Queries.UserQueries.SendConfirmation;
+namespace UserManagement.Application.UseCases.Commands.ConfirmUserCommands.SendConfirmation;
 
 public record SendConfirmationCommand : IRequest<string>
 {
