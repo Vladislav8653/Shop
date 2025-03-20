@@ -74,6 +74,8 @@ Support authentication and authorisation by JWT access token
    - Create, update and delete products can only authorized users
    - Update and delete products can only owner
 
+Implements pagination, filtration and searching of products
+
 Implement "soft-delete" operation with products
    - User can be deactivated and products will be marked as deactivated
    - User microservice send request after user deactivation and activation
