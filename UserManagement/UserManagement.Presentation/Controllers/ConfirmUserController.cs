@@ -3,6 +3,7 @@ using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.DTO;
+using UserManagement.Application.DTO.ConfirmEmailDto;
 using UserManagement.Application.UseCases.Commands.ConfirmUserCommands.ConfirmEmail;
 using UserManagement.Application.UseCases.Commands.ConfirmUserCommands.SendConfirmation;
 

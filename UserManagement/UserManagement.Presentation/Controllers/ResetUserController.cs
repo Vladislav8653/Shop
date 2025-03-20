@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.DTO;
+using UserManagement.Application.DTO.PasswordResetDto;
 using UserManagement.Application.UseCases.Commands.ResetUserCommands.ResetPassword;
 using UserManagement.Application.UseCases.Commands.ResetUserCommands.SendResetEmail;
 

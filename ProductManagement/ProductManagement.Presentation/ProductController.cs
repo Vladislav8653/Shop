@@ -93,6 +93,7 @@ public class ProductController(ISender sender) : ControllerBase
         return NoContent();
     }
 
+    [Authorize(Policy = "Admin")]
     [HttpPost("hide")]
     public async Task<IActionResult> ToggleProductVisibility
         ([FromBody] ProductVisibilityRequestDto request, CancellationToken cancellationToken)

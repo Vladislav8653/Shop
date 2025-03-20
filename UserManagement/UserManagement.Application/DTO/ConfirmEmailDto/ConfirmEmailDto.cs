@@ -1,4 +1,4 @@
-﻿namespace UserManagement.Application.DTO;
+﻿namespace UserManagement.Application.DTO.ConfirmEmailDto;
 
 public record ConfirmEmailDto
 {
