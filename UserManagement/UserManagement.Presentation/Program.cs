@@ -14,6 +14,7 @@ builder.Services.AddAutoMapper(typeof(UserMappingProfile).Assembly);
 builder.Services.AddScoped<ITokenService, TokenService>();
 builder.Services.AddScoped<IAuthenticationManager, AuthenticationManager>();
 builder.Services.AddScoped<ISmtpService, SmtpService>();
+builder.Services.AddHttpClient();
 builder.Services.AddMediatR(AppDomain.CurrentDomain.GetAssemblies());
 builder.Services.ConfigureIdentity();
 builder.Services.AddAuthorizationPolicy();

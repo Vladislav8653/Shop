@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using UserManagement.Application.DTO;
+using UserManagement.Application.DTO.HideUserDto;
+using UserManagement.Application.UseCases.Commands.HideUserCommands;
 using UserManagement.Application.UseCases.Commands.UserCommands.Authenticate;
 using UserManagement.Application.UseCases.Commands.UserCommands.DeleteById;
 using UserManagement.Application.UseCases.Commands.UserCommands.Register;
@@ -27,11 +29,11 @@ public class UsersController(IMediator mediator) : ControllerBase
     public async Task<IActionResult> RegisterUser(
         [FromBody] UserRequestDto userRequestDto)
     {
-        var command = new RegisterUserCommand
+        var query = new RegisterUserCommand
         {
             UserRequestDto = userRequestDto
         };
-        await mediator.Send(command);
+        await mediator.Send(query);
         
         return Ok();
     }
@@ -39,11 +41,11 @@ public class UsersController(IMediator mediator) : ControllerBase
     [HttpPost("login")]
     public async Task<IActionResult> Authenticate([FromBody] AuthenticateUserDto userForLogin)
     {
-        var command = new AuthenticateUserCommand
+        var query = new AuthenticateUserCommand
         {
             AuthenticateUserDto = userForLogin
         };
-        var (accessToken, refreshToken) = await mediator.Send(command);
+        var (accessToken, refreshToken) = await mediator.Send(query);
          
         return Ok(new { AccessToken = accessToken, RefreshToken = refreshToken });
     }
@@ -52,12 +54,28 @@ public class UsersController(IMediator mediator) : ControllerBase
     [Authorize(Policy = "Admin")]
     public async Task<IActionResult> DeleteUser(string userId)
     {
-        var command = new DeleteUserCommand
+        var query = new DeleteUserCommand
         {
             UserId = userId
         };
-        await mediator.Send(command);
+        await mediator.Send(query);
         
+        return Ok();
+    }
+
+    [HttpPost("hide")]
+    [Authorize(Policy = "Admin")]
+    public async Task<IActionResult> HideUser
+        ([FromBody] HideUserDto hideUserDto, CancellationToken cancellationToken)
+    {
+        var query = new HideUserCommand
+        {
+            Token = Request.Headers.Authorization.ToString().Substring("Bearer ".Length).Trim(),
+            HideUserDto = hideUserDto
+        };
+        
+        await mediator.Send(query, cancellationToken);
+
         return Ok();
     }
 }
