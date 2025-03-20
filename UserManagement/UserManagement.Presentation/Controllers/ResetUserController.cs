@@ -12,28 +12,30 @@ public class ResetUserController(IMediator mediator) : ControllerBase
 {
     [Route("send-email")]
     [HttpPost]
-    public async Task<IActionResult> SendResetToken([FromBody] EmailForPasswordResetDto emailForPasswordResetDto)
+    public async Task<IActionResult> SendResetToken
+        ([FromBody] EmailForPasswordResetDto emailForPasswordResetDto, CancellationToken cancellationToken)
     {
         var query = new SendResetEmailCommand
         {
             NewPasswordDto = emailForPasswordResetDto
         };
         
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(query, cancellationToken);
         
         return Ok(result);
     }
     
     [Route("reset-password")]
     [HttpPost]
-    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordDto resetPasswordDto)
+    public async Task<IActionResult> ResetPassword
+        ([FromBody] ResetPasswordDto resetPasswordDto, CancellationToken cancellationToken)
     {
         var query = new ResetPasswordCommand
         {
             ResetPasswordDto = resetPasswordDto
         };
        
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(query, cancellationToken);
         
         return Ok(result);
     }

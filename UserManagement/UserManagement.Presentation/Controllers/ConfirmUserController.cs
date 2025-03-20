@@ -14,7 +14,8 @@ public class ConfirmUserController(IMediator mediator): ControllerBase
 {
     [Authorize]
     [HttpPost("confirm-email")]
-    public async Task<IActionResult> ConfirmEmail([FromBody] ConfirmEmailDto confirmEmailDto)
+    public async Task<IActionResult> ConfirmEmail
+        ([FromBody] ConfirmEmailDto confirmEmailDto, CancellationToken cancellationToken)
     {
         var query = new ConfirmEmailCommand
         {
@@ -22,21 +23,21 @@ public class ConfirmUserController(IMediator mediator): ControllerBase
             ConfirmationCode = confirmEmailDto.ConfirmationCode
         };
         
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(query, cancellationToken);
         
         return Ok(result);
     }
     
     [Authorize]
     [HttpPost("send-confirmation")]
-    public async Task<IActionResult> SendConfirmationEmail() 
+    public async Task<IActionResult> SendConfirmationEmail(CancellationToken cancellationToken) 
     {
         var query = new SendConfirmationCommand
         {
             UserId = User.FindFirstValue(ClaimTypes.NameIdentifier)
         };
         
-        var result = await mediator.Send(query);
+        var result = await mediator.Send(query, cancellationToken);
         
         return Ok(result);
     }
