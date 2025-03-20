@@ -58,7 +58,7 @@ Implements password reset via Email
 Support "soft-delete" operation with users
    - User can be deactivated and products won't be deleted 
 
-![user_image](assets/user_image.png)
+![user_image](assets/user.png)
 ##
 
 ### Product management microservice
@@ -78,6 +78,6 @@ Implement "soft-delete" operation with products
    - User can be deactivated and products will be marked as deactivated
    - User microservice send request after user deactivation and activation
 
-![product_image](assets/product_image.png)
+![product_image](assets/product.png)
 
 
