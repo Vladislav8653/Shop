@@ -1,6 +1,4 @@
-﻿using System.Text.Json.Serialization;
-
-namespace ProductManagement.Application.DTO;
+﻿namespace ProductManagement.Application.DTO;
 
 public record ProductRequestDto
 {

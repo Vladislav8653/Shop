@@ -7,6 +7,7 @@ using ProductManagement.Application.Filtration;
 using ProductManagement.Application.Pagination;
 using ProductManagement.Application.UseCases.Commands.CreateProduct;
 using ProductManagement.Application.UseCases.Commands.DeleteProduct;
+using ProductManagement.Application.UseCases.Commands.HideProduct;
 using ProductManagement.Application.UseCases.Commands.UpdateProduct;
 using ProductManagement.Application.UseCases.Queries.GetProductById;
 using ProductManagement.Application.UseCases.Queries.GetProducts;
@@ -27,6 +28,7 @@ public class ProductController(ISender sender) : ControllerBase
             Filters = filters
         };
         var products = await sender.Send(query, cancellationToken);
+        
         return Ok(products);
     }
 
@@ -40,6 +42,7 @@ public class ProductController(ISender sender) : ControllerBase
             ProductId = productId
         };
         var product = await sender.Send(query, cancellationToken);
+        
         return Ok(product);
     }
 
@@ -54,6 +57,7 @@ public class ProductController(ISender sender) : ControllerBase
             NewProduct = request
         };
         await sender.Send(query, cancellationToken);
+        
         return NoContent();
     }
     
@@ -70,6 +74,7 @@ public class ProductController(ISender sender) : ControllerBase
             ProductId = productId
         };
         await sender.Send(query, cancellationToken);
+        
         return NoContent();
     }
     
@@ -84,8 +89,21 @@ public class ProductController(ISender sender) : ControllerBase
             ProductId = productId
         };
         await sender.Send(query, cancellationToken);
+        
         return NoContent();
     }
-    
-    
+
+    [HttpPost("hide")]
+    public async Task<IActionResult> ToggleProductVisibility
+        ([FromBody] ProductVisibilityRequestDto request, CancellationToken cancellationToken)
+    {
+        var query = new ToggleProductVisibilityCommand
+        {
+            ProductVisibilityRequestDto = request
+        };
+        
+        await sender.Send(query, cancellationToken);
+        
+        return NoContent();
+    }
 }
